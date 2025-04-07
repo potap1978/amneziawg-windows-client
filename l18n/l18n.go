@@ -40,15 +40,13 @@ func prn() *message.Printer {
 
 // lang returns the user preferred UI language we have most confident translation in the default catalog available.
 func lang() (tag language.Tag) {
-	keyString, res := services.UserKeyString(LanguageUserKey)
-	if res {
-		normalizedKeyTag, err := language.Parse(keyString)
-		if err == nil {
-			keyTag := message.MatchLanguage(keyString)
-			if normalizedKeyTag == keyTag {
-				tag = keyTag
-				return
-			}
+	keyString := services.UserKeyString(LanguageUserKey)
+	parseTag, err := language.Parse(keyString)
+	if err == nil {
+		matchTag := message.MatchLanguage(keyString)
+		if parseTag == matchTag {
+			tag = parseTag
+			return
 		}
 	}
 	tag = language.English

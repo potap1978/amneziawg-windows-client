@@ -39,16 +39,16 @@ func closeUserKey() {
 	userKey = 0
 }
 
-func UserKeyString(name string) (string, bool) {
+func UserKeyString(name string) string {
 	key, err := openUserKey()
 	if err != nil {
-		return err.Error(), false
+		return ""
 	}
 	val, _, err := key.GetStringValue(name)
 	if err != nil {
-		return err.Error(), false
+		return ""
 	}
-	return val, true
+	return val
 }
 
 func SetUserKeyString(name string, value string) error {
