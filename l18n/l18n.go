@@ -42,10 +42,13 @@ func prn() *message.Printer {
 func lang() (tag language.Tag) {
 	keyString, res := services.UserKeyString(LanguageUserKey)
 	if res {
-		keyTag := message.MatchLanguage(keyString)
-		if keyTag.String() == keyString {
-			tag = keyTag
-			return
+		normalizedKeyTag, err := language.Parse(keyString)
+		if err == nil {
+			keyTag := message.MatchLanguage(keyString)
+			if normalizedKeyTag == keyTag {
+				tag = keyTag
+				return
+			}
 		}
 	}
 	tag = language.English
